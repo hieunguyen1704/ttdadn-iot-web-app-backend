@@ -1,0 +1,18 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2019,
+    "sourceType": "module"
+  },
+  "parser": "babel-eslint",
+  "env": {
+    "node": true,
+    "es6": true,
+    "browser": true
+  },
+  "extends": ["eslint:recommended", "prettier"],
+  "plugins": [],
+  "rules": {
+    "no-unused-vars": ["error"],
+    "require-await": ["error"]
+  }
+}

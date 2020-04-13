@@ -1,0 +1,15 @@
+{
+  "restartable": "rs",
+  "ignore": [".git", "node_modules/**/node_modules", "dist", "./**/*.spec.js"],
+  "verbose": true,
+  "execMap": {
+    "js": "node"
+  },
+  "delay": "3",
+  "runOnChangeOnly": false,
+  "watch": ["src/**/*.js"],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "ext": "js,json"
+}
