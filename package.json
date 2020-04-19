@@ -8,7 +8,12 @@
     "start": "node dist/index.js",
     "dev": "nodemon --exec npm run restart",
     "restart": "rimraf dist && npm run build && npm run start",
-    "clean": "rm -rf .cache/ dist/"
+    "clean": "rm -rf .cache/ dist/",
+    "db-migrate": "npx sequelize-cli db:migrate",
+    "db-migrate-u": "npx sequelize-cli db:migrate:undo:all",
+    "db-seed": "npx sequelize-cli db:seed:all",
+    "db-seed-u": "npx sequelize-cli db:seed:undo:all",
+    "db-init": "npm run db-migrate && npm run db-seed"
   },
   "repository": {
     "type": "git",
@@ -22,7 +27,11 @@
   },
   "homepage": "https://gitlab.com/huynguyengl99/ttdadn-backend#readme",
   "dependencies": {
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
     "express": "^4.17.1",
+    "pg": "^8.0.2",
     "sequelize": "^5.21.6"
   },
   "devDependencies": {

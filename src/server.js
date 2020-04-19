@@ -1,4 +1,9 @@
 import express from 'express';
+import db from './models';
+import { json, urlencoded } from 'body-parser';
+import cors from 'cors';
+import userRouter from './resources/user/user.router';
+import { corsOptions } from './config/cors';
 
 const app = express();
 
@@ -8,8 +13,22 @@ app.get('/', function (req, res) {
   res.send('Hello World');
 });
 
+app.use(cors(corsOptions));
+app.use(urlencoded({ extended: true }));
+
+app.use(json());
+
+app.use('/user', userRouter);
+
 export const start = () => {
   try {
+    db.sequelize
+      .sync({ logging: false })
+      .then(() => {
+        console.log('book connected');
+      })
+      .catch((e) => console.error(e));
+
     app.listen(PORT, () => {
       console.log(`REST API on http://localhost:${PORT}/`);
     });
