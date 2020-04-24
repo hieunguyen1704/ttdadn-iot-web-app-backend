@@ -1,6 +1,10 @@
 const merge = require('lodash').merge;
 const config = require('dotenv').config;
-
+if (env === 'testing' || env === 'test') {
+  config({ path: '.env.test' });
+} else {
+  config();
+}
 const env = process.env.NODE_ENV || 'development';
 
 const baseConfig = {
@@ -14,12 +18,10 @@ const baseConfig = {
   logging: false,
   secrets: {
     jwt: '',
-    jwtExp: '15p'
-  }
+    jwtExp: '15p',
+  },
 };
-if (env === 'testing' || env === 'test') {
-  config({ path: '.env.test' });
-}
+
 let envConfig = {
   username: process.env.DB_USERNAME,
   password: process.env.DB_PASSWORD,
@@ -28,8 +30,8 @@ let envConfig = {
   secrets: {
     jwt: process.env.JWT_SECRET,
     jwtExp: '15m',
-    jwtLong: '100d'
-  }
+    jwtLong: '100d',
+  },
 };
 
 module.exports = merge(baseConfig, envConfig);
