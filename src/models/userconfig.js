@@ -3,7 +3,30 @@ module.exports = (sequelize, DataTypes) => {
   const UserConfig = sequelize.define(
     'UserConfig',
     {
-      humidThreshold: DataTypes.INTEGER,
+      humidThreshold: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      tempeThreshold: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },
+      lightThreshold: {
+        type: DataTypes.INTEGER,
+        allowNull: false
+      },        
+      userId: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
+          notNull: {
+            msg: 'User must be defined',
+          },
+          notEmpty: {
+            msg: 'User must be defined',
+          },
+        },
+      }
     },
     {}
   );
