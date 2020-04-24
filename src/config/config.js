@@ -1,11 +1,11 @@
 const merge = require('lodash').merge;
 const config = require('dotenv').config;
+const env = process.env.NODE_ENV || 'development';
 if (env === 'testing' || env === 'test') {
   config({ path: '.env.test' });
 } else {
   config();
 }
-const env = process.env.NODE_ENV || 'development';
 
 const baseConfig = {
   env,
