@@ -1,12 +1,41 @@
 import db from '../../models';
-
+const bcrypt = require('bcrypt');
+// const jwt = require("jsonwebtoken")
 const User = db.User;
 
 export const createUser = async (req, res) => {
-  const body = req.body;
+  let body = req.body;
+
   try {
-    await User.create({ ...body });
-    return res.status(201).json({ data: 'success' });
+    console.log()
+    let checkusername = await User.findOne({ where: { username: body.username } })
+
+    if (checkusername) {
+      return res.status(201).json({
+        error: 'User already exist'
+      })
+    }
+
+    let checkemail = await User.findOne({ where: { email: body.email } })
+
+    if (checkemail) {
+      return res.status(201).json({
+        error: 'Email has been registered'
+      })
+    }
+
+    // const newUser = {
+    //   username: body.username,
+    //   email: body.email,
+    //   password: body.password
+    // }
+    // ecrypt password 
+    // const salt = await bcrypt.getSalt(10)
+    const { username, email, password } = body
+    const passwordencrypt = await bcrypt.hashSync(body.password, 10)
+    body.password = passwordencrypt
+    let newUser1 = User.create(body)
+    return res.status(200).json({ id: newUser1.id })
   } catch (error) {
     console.error(error.message);
     return res.status(400).json({ error: error.message });
