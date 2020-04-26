@@ -19,6 +19,21 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      email: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        unique: {
+          msg: 'email is already registered'
+        },
+        validate: {
+          notNull: {
+            msg: 'email cannot be null',
+          },
+          notEmpty: {
+            msg: 'email cannot be empty',
+          },
+        }
+      },
       password: {
         type: DataTypes.STRING,
         allowNull: false,
@@ -29,6 +44,9 @@ module.exports = (sequelize, DataTypes) => {
           notEmpty: {
             msg: 'Password cannot be empty',
           },
+          len: {
+            msg: 'Length of password must greater or equal 6'
+          }
         },
       },
     },
