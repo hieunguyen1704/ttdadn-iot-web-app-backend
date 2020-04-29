@@ -3,11 +3,8 @@ import db from './models';
 import { json, urlencoded } from 'body-parser';
 import cors from 'cors';
 import userRouter from './resources/user/user.router';
-<<<<<<< HEAD
 import authRouter from './resources/user/auth.router';
-=======
 import dataRouter from './resources/data/data.router';
->>>>>>> develop
 import { corsOptions } from './config/cors';
 
 const app = express();
@@ -24,12 +21,9 @@ app.use(urlencoded({ extended: true }));
 app.use(json());
 
 app.use('/user', userRouter);
-<<<<<<< HEAD
 app.use('/auth', authRouter);
-=======
 app.use('/data', dataRouter);
 
->>>>>>> develop
 export const start = () => {
   try {
     db.sequelize
