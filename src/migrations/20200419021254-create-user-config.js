@@ -13,6 +13,12 @@ module.exports = {
         humidThreshold: {
           type: Sequelize.INTEGER,
         },
+        tempeThreshold: {
+          type: Sequelize.INTEGER,
+        },
+        lightThreshold: {
+          type: Sequelize.INTEGER,
+        },        
         userId: {
           type: Sequelize.INTEGER,
           allowNull: false,
