@@ -3,10 +3,12 @@ import db from './models';
 import { json, urlencoded } from 'body-parser';
 import cors from 'cors';
 import userRouter from './resources/user/user.router';
-
-import configRouter from './resources/user-config/userConfig.router'
 import authRouter from './resources/user/auth.router';
 import dataRouter from './resources/data/data.router';
+
+import configRouter from './resources/user-config/userConfig.router'
+
+
 
 import { corsOptions } from './config/cors';
 

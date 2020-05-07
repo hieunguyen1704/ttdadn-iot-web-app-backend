@@ -24,13 +24,6 @@ export const createUser = async (req, res) => {
       })
     }
 
-    // const newUser = {
-    //   username: body.username,
-    //   email: body.email,
-    //   password: body.password
-    // }
-    // ecrypt password 
-    // const salt = await bcrypt.getSalt(10)
     const { username, email, password } = body
     const passwordencrypt = await bcrypt.hashSync(body.password, 10)
     body.password = passwordencrypt
