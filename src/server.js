@@ -10,13 +10,19 @@ import dataRouter from './resources/data/data.router';
 
 import { corsOptions } from './config/cors';
 
+import {subscribe} from './service/client/subcribe.js';
+import {publish} from './service/client/publish.js'
+
 const app = express();
 
 const PORT = process.env.PORT || 5000;
 
+
 app.get('/', function (req, res) {
-  res.send('Hello World');
+  res.send("Hello");
 });
+
+
 
 app.use(cors(corsOptions));
 app.use(urlencoded({ extended: true }));
@@ -43,6 +49,14 @@ export const start = () => {
     app.listen(PORT, () => {
       console.log(`REST API on http://localhost:${PORT}/`);
     });
+
+    (function(){
+      subscribe()
+      // publish('[{"device_id": "id2","values": ["1", "3"]},{"device_id": "1","values": ["3.24"]}]')
+    })()
+
+    // ()
+
   } catch (e) {
     console.error(e);
   }

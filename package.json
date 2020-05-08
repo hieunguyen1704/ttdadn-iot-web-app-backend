@@ -36,6 +36,7 @@
     "express": "^4.17.1",
     "factory-girl": "^5.0.4",
     "jsonwebtoken": "^8.5.1",
+    "mqtt": "^4.0.0",
     "pg": "^8.0.2",
     "sequelize": "^5.21.6"
   },
