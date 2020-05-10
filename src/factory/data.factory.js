@@ -1,5 +1,5 @@
 const factory = require('factory-girl').factory;
-
+// const factory
 const db = require('../models');
 
 factory.define('data', db.Data, () => {
