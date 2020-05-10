@@ -3,8 +3,6 @@ import { getData } from './data.controller';
 
 const router = Router();
 
-router
-  .route('/get-data')
-  .get(getData);
+router.route('/').get(getData);
 
 export default router;
