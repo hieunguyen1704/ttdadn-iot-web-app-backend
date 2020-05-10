@@ -1,14 +1,10 @@
 import { Router } from 'express';
-import { getCurrentRecord, getRecordInRange } from './data.controller';
+import { getData } from './data.controller';
 
 const router = Router();
 
 router
-  .route('/get-current-record')
-  .get(getCurrentRecord);
-
-router
-  .route('/get-record-in-range')
-  .get(getRecordInRange);
+  .route('/get-data')
+  .get(getData);
 
 export default router;
