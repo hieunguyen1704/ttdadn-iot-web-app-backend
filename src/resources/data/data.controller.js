@@ -3,7 +3,15 @@ import { Op } from 'sequelize';
 
 const Data = db.Data;
 
-export const getCurrentRecord = async (request, respond) => {
+
+export const getData = async (request, respond) => {
+	if (!request.query.start || !request.query.end)
+		return getCurrentRecord (request, respond)
+	else
+		return getRecordInRange (request, respond)
+}
+
+const getCurrentRecord = async (request, respond) => {
   try {
     const entries = await Data.findAll({
       limit: 1,
@@ -22,7 +30,7 @@ export const getCurrentRecord = async (request, respond) => {
   }
 };
 
-export const getRecordInRange = async (request, respond) => {
+const getRecordInRange = async (request, respond) => {
   try {
     let start = request.query.start;
     let end = request.query.end;

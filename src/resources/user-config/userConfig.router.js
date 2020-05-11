@@ -3,9 +3,7 @@ import { CreateConfig,GetConfigByUser,DeleteConfig} from './userConfig.controlle
 const router = Router();
 router
     .route('/')
-    .post(CreateConfig);
-router
-    .route('/:userId')
+    .post(CreateConfig)
     .get(GetConfigByUser);
 router
     .route('/delete/:id')
