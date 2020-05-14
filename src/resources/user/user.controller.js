@@ -24,9 +24,8 @@ export const createUser = async (req, res) => {
       })
     }
 
-    const { username, email, password } = body
-    const passwordencrypt = await bcrypt.hashSync(body.password, 10)
-    body.password = passwordencrypt
+    // const { username, email, password } = body
+
     let newUser1 = User.create(body)
     return res.status(200).json({ id: newUser1.id })
   } catch (error) {
