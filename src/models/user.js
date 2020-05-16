@@ -52,6 +52,16 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
       },
+      isAdmin: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      },
+      isAuto: {
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: false
+      }
     },
     {}
   );
