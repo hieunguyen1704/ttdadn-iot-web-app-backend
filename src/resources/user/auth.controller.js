@@ -34,7 +34,8 @@ export const requestLogin = async (req, res) => {
         const payload = {
             user: {
                 id: user.id,
-                username: user.username
+                username: user.username,
+                isAdmin: user.isAdmin,
             }
         }
         jwt.sign(
