@@ -10,7 +10,7 @@ import configRouter from './resources/user-config/userConfig.router';
 
 import { corsOptions } from './config/cors';
 
-import { subscribe } from './service/client/subcribe.js';
+import { subscribe } from './service/client/subscribe.js';
 import { publish } from './service/client/publish.js';
 
 const app = express();
