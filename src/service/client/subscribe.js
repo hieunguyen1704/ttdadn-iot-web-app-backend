@@ -1,3 +1,6 @@
+import { publish } from './publish';
+import { json } from 'body-parser';
+
 const db = require('../../models');
 
 var mqtt = require('mqtt');
@@ -12,15 +15,34 @@ export const subscribe = () => {
       client.subscribe(topic);
     });
 
-    client.on('message', function (topic, message) {
+    client.on('message', async function (topic, message) {
       var mes = message;
       console.log(mes.toString());
       var jsonMessage = JSON.parse(mes.toString());
-      db.Data.create({
-        temperature: parseFloat(jsonMessage[0].temperature),
-        humid: parseFloat(jsonMessage[0].humid),
-        light: parseInt(jsonMessage[0].light),
-      });
+
+
+
+      const users = await db.User.findAll({where: {isAuto: true, isAdmin: true}});
+
+      if (users.length > 0 ){
+        const user = users[0];
+        const userConfig = await db.UserConfig.findByPk(user.id);
+        // console.log(parseFloat(userConfig.tempeThreshold));
+        
+
+        if (parseFloat(jsonMessage[0].temperature) > parseFloat(userConfig.tempeThreshold) && 
+            parseFloat(jsonMessage[0].humid) > parseFloat(userConfig.humidThreshold) && 
+            parseFloat(jsonMessage[0].light) > parseFloat(userConfig.lightThreshold)){
+              console.log("OK")
+              // publish(false);
+            }
+      }
+
+      // db.Data.create({
+      //   temperature: parseFloat(jsonMessage[0].temperature),
+      //   humid: parseFloat(jsonMessage[0].humid),
+      //   light: parseInt(jsonMessage[0].light),
+      // });
       //if user.auto==true user-config
     });
   } catch (error) {
