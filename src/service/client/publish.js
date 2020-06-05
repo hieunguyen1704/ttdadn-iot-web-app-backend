@@ -13,6 +13,7 @@ export const publish = (req) => {
             publish('[{"device_id": "id2","values": ["1", "3"]},{"device_id": "1","values": ["3.24"]}]')
             console.log("Publish OK")
         })
+        return "Publish Ok";
     }
     catch (error) {
         console.error(error.message);
