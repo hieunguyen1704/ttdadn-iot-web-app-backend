@@ -13,7 +13,9 @@ router.get('/', auth, async (req, res) => {
         // const user = await User.findById(req.user.id).select('-password')
         // console.log(req.user)
         const user = await User.findOne({ where: { id: req.user.id } })
-        res.status(200).json({ username: user.username, id: user.id, isAuto: user.isAuto, isAdmin: user.isAdmin })
+        const userAdmin = await User.findOne({ where: { isAdmin: true } })
+
+        res.status(200).json({ username: user.username, id: user.id, isAuto: user.isAuto, isAdmin: user.isAdmin, autoOfAdmin: userAdmin.isAuto })
     } catch (err) {
         console.log((err.message));
         res.status(500).send('Server error');
@@ -39,7 +41,6 @@ router.post('/configAuto', authAdmin, async (req, res) => {
         res.status(400).json({ msg: 'Server error' })
     }
 }
-
 )
 
 export default router;
