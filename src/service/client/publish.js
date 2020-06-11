@@ -1,7 +1,20 @@
 var mqtt = require('mqtt')
-var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt')
+
+// var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt')
+
+
+var client = mqtt.connect({
+    servers: [
+      {host: '13.76.250.158', port: 1883, protocol: 'tcp'}
+    ],
+    username: 'BKvm2',
+    password: 'Hcmut_CSE_2020'
+  });
+
 
 var topic = "M1"
+var turnOnMes = '{"device_id": "id3", "values": "1"}'
+var turnOffMes = '{"device_id": "id3", "values": "0"}'
 
 export const publish = (req) => {
     //false, true
@@ -9,11 +22,15 @@ export const publish = (req) => {
         client.on('connect', function () {
             console.log("Pub connect OK")
             // thiet lap cai motor neu false thi dua vao ma true thi dua ra
-            client.publish(topic, req)
-            publish('[{"device_id": "id2","values": ["1", "3"]},{"device_id": "1","values": ["3.24"]}]')
+            if (req){
+                client.publish(topic, turnOnMes)
+            }
+            else {
+                client.publish(topic, turnOffMes)
+            }
+            
             console.log("Publish OK")
         })
-        return "Publish Ok";
     }
     catch (error) {
         console.error(error.message);
