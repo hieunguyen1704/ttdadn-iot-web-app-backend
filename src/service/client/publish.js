@@ -12,22 +12,23 @@ var client = mqtt.connect({
   });
 
 
-var topic = "M1"
-var turnOnMes = '{"device_id": "id3", "values": "1"}'
-var turnOffMes = '{"device_id": "id3", "values": "0"}'
+var topic = "Topic/Speaker"
 
-export const publish = (req) => {
+var turnOnMes = '{"device_id": "Speaker", "values": ["1", "2000"]}'
+var turnOffMes = '{"device_id": "Speaker", "values": ["0", "2000"]}'
+
+export const publish = () => {
     //false, true
     try {
         client.on('connect', function () {
             console.log("Pub connect OK")
-            // thiet lap cai motor neu false thi dua vao ma true thi dua ra
-            if (req){
-                client.publish(topic, turnOnMes)
-            }
-            else {
-                client.publish(topic, turnOffMes)
-            }
+            
+            client.publish(topic, turnOnMes);
+
+            var pushMotor = setTimeout(function(){}, 5000);
+            clearTimeout(pushMotor);
+
+            client.publish(topic, turnOffMes);
             
             console.log("Publish OK")
         })
