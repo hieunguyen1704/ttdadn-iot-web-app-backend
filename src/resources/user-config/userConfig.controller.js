@@ -1,5 +1,5 @@
 import db from '../../models';
-import { publish } from '../../service/client/publish';
+// import { publish } from '../../service/client/publish';
 
 const UserConfig = db.UserConfig;
 

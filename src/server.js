@@ -11,7 +11,7 @@ import publishRouter from './resources/publish_rule/publish.router'
 import { corsOptions } from './config/cors';
 
 import { subscribe } from './service/client/subscribe.js';
-import { publish } from './service/client/publish.js';
+// import { publish } from './service/client/publish.js';
 
 const app = express();
 

@@ -18,7 +18,10 @@ module.exports = {
         },
         lightThreshold: {
           type: Sequelize.INTEGER,
-        },        
+        },
+        name: {
+          type: Sequelize.STRING
+        },
         userId: {
           type: Sequelize.INTEGER,
           allowNull: false,
