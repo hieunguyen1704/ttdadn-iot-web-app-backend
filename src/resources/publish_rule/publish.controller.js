@@ -4,7 +4,7 @@ export const PublishData = async (req, res) => {
     try {
         const user = await db.User.findOne({ where: { id: req.user.id } });
         const {isAdmin,isAuto} = user;
-        if(isAdmin && isAuto){
+        if(isAdmin && !isAuto){
             publish(); 
             return res.status(200).json({ data: "publish successful"});
         }
