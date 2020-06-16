@@ -1,46 +1,47 @@
-var mqtt = require('mqtt')
+var mqtt = require('mqtt');
 
+const db = require('../../models');
 // var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt')
 
-
-var options={
-    retain:true,
-    qos:0
-  };
-
 var client = mqtt.connect({
-    servers: [
-      {host: '13.76.250.158', port: 1883, protocol: 'tcp'}
-    ],
-    username: 'BKvm2',
-    password: 'Hcmut_CSE_2020'
-  });
+  servers: [{ host: '13.76.250.158', port: 1883, protocol: 'tcp' }],
+  username: 'BKvm2',
+  password: 'Hcmut_CSE_2020',
+});
 
+var topic = 'Topic/Speaker';
 
-var topic = "Topic/Speaker"
+var turnOnMes = '{"device_id": "Speaker", "values": ["1", "2000"]}';
+var turnOffMes = '{"device_id": "Speaker", "values": ["0", "2000"]}';
 
-var turnOnMes = '{"device_id": "Speaker", "values": ["1", "2000"]}'
-var turnOffMes = '{"device_id": "Speaker", "values": ["0", "2000"]}'
-
-export const publish = () => {
-    //false, true
-    try {
-        client.on('connect', function () {
-            console.log("Pub connect OK")
-            
-            client.publish(topic, turnOnMes, options);
-
-            var pushMotor = setTimeout(function(){}, 5000);
-            // clearTimeout(pushMotor);
-
-            client.publish(topic, turnOffMes, options);
-
-            
-            console.log("Publish OK")
-        })
-    }
-    catch (error) {
-        console.error(error.message);
-    }
+export const publish = (state) => {
+  //false, true
+  try {
+    client.on('connect', async function () {
+      const stateLog = await db.motorLog.findAll({
+        limit: 1,
+        order: [['id', 'DESC']],
+      });
+      const lastState = stateLog.length > 0 ? stateLog[0].state : true;
+      if (lastState && state === true) {
+        db.motorLog.create({
+          state: true,
+        });
+        client.publish(topic, turnOnMes);
+        setTimeout(() => {
+          client.publish(topic, turnOffMes);
+        }, 5000);
+      } else if (lastState && state === false) {
+        db.motorLog.create({
+          state: false,
+        });
+        client.publish(topic, turnOnMes);
+        setTimeout(() => {
+          client.publish(topic, turnOffMes);
+        }, 5000);
+      }
+    });
+  } catch (error) {
+    console.error(error.message);
+  }
 };
-

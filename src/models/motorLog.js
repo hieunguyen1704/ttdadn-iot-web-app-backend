@@ -1,7 +1,7 @@
 'use strict';
 module.exports = (sequelize, DataTypes) => {
   const motorLog = sequelize.define(
-    'motorLog',
+    'motorLogs',
     {
       state: {
         type: DataTypes.BOOLEAN,
