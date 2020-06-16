@@ -7,7 +7,8 @@ import authRouter from './resources/user/auth.router';
 import dataRouter from './resources/data/data.router';
 import auth from './resources/user/middleware/auth';
 import configRouter from './resources/user-config/userConfig.router';
-import publishRouter from './resources/publish_rule/publish.router'
+import publishRouter from './resources/publish_rule/publish.router';
+import getMotorState from './resources/motorState/motor.router';
 import { corsOptions } from './config/cors';
 
 import { subscribe } from './service/client/subscribe.js';
@@ -38,6 +39,10 @@ app.use('/data', dataRouter);
 
 app.use('/publish', auth);
 app.use('/publish', publishRouter);
+
+app.use('/motor', auth);
+app.use('/motor', getMotorState);
+
 export const start = () => {
   try {
     db.sequelize

@@ -20,6 +20,7 @@ var topic_TempHumi = 'Topic/TempHumi';
 
 // eslint-disable-next-line no-unused-vars
 var topic_Light = 'Topic/Light';
+// var topic = 'Topic/Speaker';
 // var test = 'test_hieu';
 
 export const subscribe = () => {
@@ -28,68 +29,59 @@ export const subscribe = () => {
       console.log('Sub connect OK');
       client.subscribe(topic_TempHumi);
       client.subscribe(topic_Light);
+      // client.subscribe(topic);
       // client.subscribe("test_hieu");
-
     });
     var temp = -1;
     var humid = -1;
     var light = -1;
-    // var sensorTemp, sensorHumid, sensorLight = undefined;
+    client.on('message', function (topic, message) {
+      try {
+        var mes = message;
 
-    client.on('message',function (topic, message) {
-      var mes = message;
-      // console.log(mes);
-      // console.log(mes.toString());
+        var jsonMessage = JSON.parse(mes.toString());
+        console.log(jsonMessage[0]);
 
-      var jsonMessage = JSON.parse(mes.toString());
-      console.log(jsonMessage[0]);
+        if (jsonMessage[0].device_id == 'TempHumi ') {
+          temp = parseFloat(jsonMessage[0].values[0]);
+          humid = parseFloat(jsonMessage[0].values[1]);
+        }
 
-      if (jsonMessage[0].device_id == 'TempHumi ') {
-        temp = parseFloat(jsonMessage[0].values[0]);
-        humid = parseFloat(jsonMessage[0].values[1]);
-      }
+        if (jsonMessage[0].device_id == 'Light') {
+          light = parseFloat(jsonMessage[0].values[0]);
+        }
 
-      if (jsonMessage[0].device_id == 'Light') {
-        light = parseFloat(jsonMessage[0].values[0]);
-      }
+        if (temp != -1 && humid != -1 && light != -1) {
+          db.Data.create({
+            temperature: temp,
+            humid: humid,
+            light: light,
+          });
 
+          doIt(temp, humid, light);
 
-      //@Hieu add to test create data
-      // if(jsonMessage[0].temperature && jsonMessage[0].light && jsonMessage[0].humid){
-      //   temp = parseFloat(jsonMessage[0].temperature);
-      //   light = parseFloat(jsonMessage[0].light);
-      //   humid = parseFloat(jsonMessage[0].humid);
-      // }
-
-      if(temp != -1 && humid != -1 && light != -1){
-        db.Data.create({
-          temperature: temp,
-          humid: humid,
-          light: light
-        })
-
-        doIt(temp, humid, light);
-
-        temp = -1;
-        humid = -1;
-        light = -1;
+          temp = -1;
+          humid = -1;
+          light = -1;
+        }
+      } catch (error) {
+        console.error(error.message);
       }
     });
-
-
   } catch (error) {
     console.error(error.message);
   }
 };
 
 const doIt = async (temp, humid, light) => {
-  const users = await db.User.findAll({where: {isAuto: true, isAdmin: true}});
-
-  if (users.length > 0 ){
+  const users = await db.User.findAll({
+    where: { isAuto: true, isAdmin: true },
+  });
+  if (users.length > 0) {
     const user = users[0];
     const userConfig = await db.UserConfig.findAll({
-      where:{
-        userId: user.id
+      where: {
+        userId: user.id,
       },
       limit: 1,
       order: [['id', 'DESC']],
@@ -97,14 +89,17 @@ const doIt = async (temp, humid, light) => {
 
     // console.log(userConfig[0].tempeThreshold)
 
-    if (temp != -1 && temp > parseFloat(userConfig[0].tempeThreshold) && 
-        humid != -1 && humid < parseFloat(userConfig[0].humidThreshold) && 
-        light != -1 && light > parseFloat(userConfig[0].lightThreshold)){
-            publish(true);
-        }
-
-    else {
-            publish(false);
+    if (
+      temp != -1 &&
+      temp > parseFloat(userConfig[0].tempeThreshold) &&
+      humid != -1 &&
+      humid < parseFloat(userConfig[0].humidThreshold) &&
+      light != -1 &&
+      light > parseFloat(userConfig[0].lightThreshold)
+    ) {
+      publish(true);
+    } else {
+      publish(false);
     }
   }
-}
+};
