@@ -9,7 +9,8 @@ var client = mqtt.connect({
   password: 'Hcmut_CSE_2020',
 });
 
-var topic = 'Topic/Speaker';
+// var topic = 'Topic/Speaker';
+var topic = 'hahahahaha';
 
 var turnOnMes = '{"device_id": "Speaker", "values": ["1", "2000"]}';
 var turnOffMes = '{"device_id": "Speaker", "values": ["0", "2000"]}';
@@ -20,6 +21,7 @@ export const publish = (status) => {
     client.on('connect', async function () {
 
       const stateLog = await db.motorLogs.findAll();
+      console.log("AAAAAAAAAAAa")
           
       console.log(stateLog[stateLog.length-1].state)
 

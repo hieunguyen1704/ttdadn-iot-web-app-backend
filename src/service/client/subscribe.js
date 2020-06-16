@@ -35,6 +35,7 @@ export const subscribe = () => {
     client.on('message', async function (topic, message) {
       var mes = message;
       // console.log(mes);
+      
       // console.log(mes.toString());
 
       var jsonMessage = JSON.parse(mes.toString());
@@ -50,6 +51,7 @@ export const subscribe = () => {
           light = parseFloat(jsonMessage[0].values[0]);
 
       }
+      
 
       if(temp != -1 && humid != -1 && light != -1){
         db.Data.create({
@@ -58,23 +60,28 @@ export const subscribe = () => {
           light: light
         })
 
-        doIt(temp, humid, light);
+        
+        await doIt(temp, humid, light);
 
         temp = -1;
         humid = -1;
         light = -1;
       }
 
+      // 
+      
     });
-
-
+    
   } catch (error) {
     console.error(error.message);
   }
 };
 
+
 const doIt = async (temp, humid, light) => {
   const users = await db.User.findAll({where: {isAuto: true, isAdmin: true}});
+
+  
 
   if (users.length > 0 ){
     const user = users[0];
@@ -86,15 +93,18 @@ const doIt = async (temp, humid, light) => {
       order: [['id', 'DESC']],
     });
 
+    publish(true)
     // console.log(userConfig[0].tempeThreshold)
 
     if (temp != -1 && temp > parseFloat(userConfig[0].tempeThreshold) && 
         humid != -1 && humid < parseFloat(userConfig[0].humidThreshold) && 
         light != -1 && light > parseFloat(userConfig[0].lightThreshold)){
+            console.log("true")
             publish(true);
         }
 
     else {
+            console.log("false")
             publish(false);
     }
   }

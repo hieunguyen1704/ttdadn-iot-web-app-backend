@@ -53,6 +53,7 @@ export const start = () => {
 
     (function () {
       subscribe();
+      // publish(false);
       // 
     })();
     // publish("Hello You");
