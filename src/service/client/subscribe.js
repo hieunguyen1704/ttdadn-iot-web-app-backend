@@ -74,23 +74,23 @@ export const subscribe = () => {
         if (temp > parseFloat(userConfig.tempeThreshold) && 
             humid < parseFloat(userConfig.humidThreshold) && 
             light > parseFloat(userConfig.lightThreshold)){
-              const stateLog = await db.motorLog.findAll();
+              const stateLog = await db.motorLogs.findAll();
               if (!stateLog[stateLog.length-1].state){
                 publish();
 
-                db.motorLog.create({
+                db.motorLogs.create({
                   state: true,
                 });
               }
             }
 
         else {
-              const stateLog = await db.motorLog.findAll();
+              const stateLog = await db.motorLogs.findAll();
 
               if (stateLog[stateLog.length-1].state){
                 publish();
 
-                db.motorLog.create({
+                db.motorLogs.create({
                   state: false,
                 });
             }
