@@ -20,28 +20,23 @@ var topic_TempHumi = 'Topic/TempHumi';
 
 // eslint-disable-next-line no-unused-vars
 var topic_Light = 'Topic/Light';
-var test = 'test_hieu';
+// var test = 'test_hieu';
 
 export const subscribe = () => {
   try {
     client.on('connect', function () {
       console.log('Sub connect OK');
-<<<<<<< HEAD
       client.subscribe(topic_TempHumi);
       client.subscribe(topic_Light);
       // client.subscribe("test_hieu");
-=======
-      // client.subscribe(topic_TempHumi);
-      // client.subscribe(topic_Light);
-      client.subscribe(test);
->>>>>>> feature/huylvm
+
     });
     var temp = -1;
     var humid = -1;
     var light = -1;
     // var sensorTemp, sensorHumid, sensorLight = undefined;
 
-    client.on('message', async function (topic, message) {
+    client.on('message',function (topic, message) {
       var mes = message;
       // console.log(mes);
       // console.log(mes.toString());
