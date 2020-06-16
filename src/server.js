@@ -55,7 +55,7 @@ export const start = () => {
       subscribe();
       // 
     })();
-    // publish("Hello You");
+    // publish(true);
     // ()
   } catch (e) {
     console.error(e);
