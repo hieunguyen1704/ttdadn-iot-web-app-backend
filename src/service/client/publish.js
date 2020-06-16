@@ -3,6 +3,11 @@ var mqtt = require('mqtt')
 // var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt')
 
 
+var options={
+    retain:true,
+    qos:0
+  };
+
 var client = mqtt.connect({
     servers: [
       {host: '13.76.250.158', port: 1883, protocol: 'tcp'}
@@ -23,12 +28,13 @@ export const publish = () => {
         client.on('connect', function () {
             console.log("Pub connect OK")
             
-            client.publish(topic, turnOnMes);
+            client.publish(topic, turnOnMes, options);
 
             var pushMotor = setTimeout(function(){}, 5000);
-            clearTimeout(pushMotor);
+            // clearTimeout(pushMotor);
 
-            client.publish(topic, turnOffMes);
+            client.publish(topic, turnOffMes, options);
+
             
             console.log("Publish OK")
         })

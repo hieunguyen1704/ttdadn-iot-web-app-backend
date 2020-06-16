@@ -17,7 +17,7 @@ var client = mqtt.connect({
 
 var topic_TempHumi = 'Topic/TempHumi';
 var topic_Light = 'Topic/Light';
-// var topic_Mois = 'Topic/Mois';
+// var test = 'test_02';
 
 export const subscribe = () => {
   try {
@@ -25,7 +25,7 @@ export const subscribe = () => {
       console.log('Sub connect OK');
       client.subscribe(topic_TempHumi);
       client.subscribe(topic_Light);
-      // client.subscribe(topic_Mois);
+      // client.subscribe(test);
     });
 
     var temp = -1;
@@ -34,6 +34,8 @@ export const subscribe = () => {
 
     client.on('message', async function (topic, message) {
       var mes = message;
+      // console.log(mes);
+      // console.log(mes.toString());
 
       var jsonMessage = JSON.parse(mes.toString());
       console.log(jsonMessage[0])
@@ -49,13 +51,14 @@ export const subscribe = () => {
 
       }
     
-      if(temp, humid, light != -1){
+      if(temp !== -1 && humid !== -1 && light !== -1){
         db.Data.create({
           temperature: temp,
           humid: humid,
           light: light
         })
       }
+      
       const users = await db.User.findAll({where: {isAuto: true, isAdmin: true}});
 
       if (users.length > 0 ){
