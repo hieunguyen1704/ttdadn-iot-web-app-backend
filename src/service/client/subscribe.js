@@ -63,11 +63,17 @@ export const subscribe = () => {
 
       if (users.length > 0 ){
         const user = users[0];
-        const userConfig = await db.UserConfig.findByPk(user.id);
+        const userConfig = await db.UserConfig.findAll({
+          where:{
+            userId: user.id
+          },
+          limit: 1,
+          order: [['id', 'DESC']],
+        });
 
-        if (parseFloat(jsonMessage[0].temperature) > parseFloat(userConfig.tempeThreshold) && 
-            parseFloat(jsonMessage[0].humid) < parseFloat(userConfig.humidThreshold) && 
-            parseFloat(jsonMessage[0].light) > parseFloat(userConfig.lightThreshold)){
+        if (temp > parseFloat(userConfig.tempeThreshold) && 
+            humid < parseFloat(userConfig.humidThreshold) && 
+            light > parseFloat(userConfig.lightThreshold)){
               const stateLog = await db.motorLog.findAll();
               if (!stateLog[stateLog.length-1].state){
                 publish();
