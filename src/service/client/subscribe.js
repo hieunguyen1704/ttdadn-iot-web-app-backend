@@ -91,32 +91,11 @@ const doIt = async (temp, humid, light) => {
     if (temp != -1 && temp > parseFloat(userConfig[0].tempeThreshold) && 
         humid != -1 && humid < parseFloat(userConfig[0].humidThreshold) && 
         light != -1 && light > parseFloat(userConfig[0].lightThreshold)){
-          
-          const stateLog = await db.motorLogs.findAll();
-          
-          console.log(stateLog[stateLog.length-1].state)
-
-          if (!stateLog[stateLog.length-1].state){
             publish(true);
-
-            // db.motorLogs.create({
-            //   state: true,
-            // });
-          }
         }
 
     else {
-          const stateLog = await db.motorLogs.findAll();
-
-          console.log(stateLog[stateLog.length-1].state)
-
-          if (stateLog[stateLog.length-1].state){
             publish(false);
-
-            // db.motorLogs.create({
-            //   state: false,
-            // });
-        }
     }
   }
 }
