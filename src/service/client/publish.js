@@ -49,7 +49,7 @@ var turnOffMes = '{"device_id": "Speaker", "values": ["0", "2000"]}';
 
 
 
-export const publish = () => {
+export const publish = (status) => {
   //false, true
   try {
     client.on('connect', async function () {
@@ -59,6 +59,16 @@ export const publish = () => {
         client.publish(topic, turnOffMes);
       }, 5000);
 
+      if (status){
+        db.motorLogs.create({
+              state: true,
+            });
+      }
+      else if (!status){
+        db.motorLogs.create({
+          state: false,
+        });
+      }
     });
   } catch (error) {
     console.error(error.message);

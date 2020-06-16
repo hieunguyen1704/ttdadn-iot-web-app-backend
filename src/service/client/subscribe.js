@@ -97,11 +97,11 @@ const doIt = async (temp, humid, light) => {
           console.log(stateLog[stateLog.length-1].state)
 
           if (!stateLog[stateLog.length-1].state){
-            publish();
+            publish(true);
 
-            db.motorLogs.create({
-              state: true,
-            });
+            // db.motorLogs.create({
+            //   state: true,
+            // });
           }
         }
 
@@ -111,11 +111,11 @@ const doIt = async (temp, humid, light) => {
           console.log(stateLog[stateLog.length-1].state)
 
           if (stateLog[stateLog.length-1].state){
-            publish();
+            publish(false);
 
-            db.motorLogs.create({
-              state: false,
-            });
+            // db.motorLogs.create({
+            //   state: false,
+            // });
         }
     }
   }
