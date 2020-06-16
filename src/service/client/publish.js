@@ -14,32 +14,51 @@ var topic = 'Topic/Speaker';
 var turnOnMes = '{"device_id": "Speaker", "values": ["1", "2000"]}';
 var turnOffMes = '{"device_id": "Speaker", "values": ["0", "2000"]}';
 
-export const publish = (state) => {
+// export const publish = (state) => {
+//   //false, true
+//   try {
+//     client.on('connect', async function () {
+//       const stateLog = await db.motorLog.findAll({
+//         limit: 1,
+//         order: [['id', 'DESC']],
+//       });
+//       const lastState = stateLog.length > 0 ? stateLog[0].state : true;
+//       // console.log(lastState)
+//       if (lastState && state === true) {
+//         db.motorLog.create({
+//           state: true,
+//         });
+//         client.publish(topic, turnOnMes);
+//         setTimeout(() => {
+//           client.publish(topic, turnOffMes);
+//         }, 5000);
+//       } else if (lastState && state === false) {
+//         db.motorLog.create({
+//           state: false,
+//         });
+//         client.publish(topic, turnOnMes);
+//         setTimeout(() => {
+//           client.publish(topic, turnOffMes);
+//         }, 5000);
+//       }
+//     });
+//   } catch (error) {
+//     console.error(error.message);
+//   }
+// };
+
+
+
+export const publish = () => {
   //false, true
   try {
     client.on('connect', async function () {
-      const stateLog = await db.motorLog.findAll({
-        limit: 1,
-        order: [['id', 'DESC']],
-      });
-      const lastState = stateLog.length > 0 ? stateLog[0].state : true;
-      if (lastState && state === true) {
-        db.motorLog.create({
-          state: true,
-        });
-        client.publish(topic, turnOnMes);
-        setTimeout(() => {
-          client.publish(topic, turnOffMes);
-        }, 5000);
-      } else if (lastState && state === false) {
-        db.motorLog.create({
-          state: false,
-        });
-        client.publish(topic, turnOnMes);
-        setTimeout(() => {
-          client.publish(topic, turnOffMes);
-        }, 5000);
-      }
+    
+      client.publish(topic, turnOnMes);
+      setTimeout(() => {
+        client.publish(topic, turnOffMes);
+      }, 5000);
+
     });
   } catch (error) {
     console.error(error.message);

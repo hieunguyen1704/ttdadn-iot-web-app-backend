@@ -17,15 +17,15 @@ var client = mqtt.connect({
 
 var topic_TempHumi = 'Topic/TempHumi';
 var topic_Light = 'Topic/Light';
-// var test = 'test_02';
+var test = 'test_hieu';
 
 export const subscribe = () => {
   try {
     client.on('connect', function () {
       console.log('Sub connect OK');
-      client.subscribe(topic_TempHumi);
-      client.subscribe(topic_Light);
-      // client.subscribe(test);
+      // client.subscribe(topic_TempHumi);
+      // client.subscribe(topic_Light);
+      client.subscribe(test);
     });
 
     var temp = -1;
@@ -50,54 +50,73 @@ export const subscribe = () => {
           light = parseFloat(jsonMessage[0].values[0]);
 
       }
-    
+
       if(temp != -1 && humid != -1 && light != -1){
         db.Data.create({
           temperature: temp,
           humid: humid,
           light: light
         })
+
+        doIt(temp, humid, light);
+
+        temp = -1;
+        humid = -1;
+        light = -1;
       }
-      
-      const users = await db.User.findAll({where: {isAuto: true, isAdmin: true}});
 
-      if (users.length > 0 ){
-        const user = users[0];
-        const userConfig = await db.UserConfig.findAll({
-          where:{
-            userId: user.id
-          },
-          limit: 1,
-          order: [['id', 'DESC']],
-        });
-
-        if (temp != -1 && temp > parseFloat(userConfig.tempeThreshold) && 
-            humid != -1 && humid < parseFloat(userConfig.humidThreshold) && 
-            light != -1 && light > parseFloat(userConfig.lightThreshold)){
-              const stateLog = await db.motorLogs.findAll();
-              if (!stateLog[stateLog.length-1].state){
-                publish();
-
-                db.motorLogs.create({
-                  state: true,
-                });
-              }
-            }
-
-        else {
-              const stateLog = await db.motorLogs.findAll();
-
-              if (stateLog[stateLog.length-1].state){
-                publish();
-
-                db.motorLogs.create({
-                  state: false,
-                });
-            }
-        }
-      }
     });
+
+
   } catch (error) {
     console.error(error.message);
   }
 };
+
+const doIt = async (temp, humid, light) => {
+  const users = await db.User.findAll({where: {isAuto: true, isAdmin: true}});
+
+  if (users.length > 0 ){
+    const user = users[0];
+    const userConfig = await db.UserConfig.findAll({
+      where:{
+        userId: user.id
+      },
+      limit: 1,
+      order: [['id', 'DESC']],
+    });
+
+    // console.log(userConfig[0].tempeThreshold)
+
+    if (temp != -1 && temp > parseFloat(userConfig[0].tempeThreshold) && 
+        humid != -1 && humid < parseFloat(userConfig[0].humidThreshold) && 
+        light != -1 && light > parseFloat(userConfig[0].lightThreshold)){
+          
+          const stateLog = await db.motorLogs.findAll();
+          
+          console.log(stateLog[stateLog.length-1].state)
+
+          if (!stateLog[stateLog.length-1].state){
+            publish();
+
+            db.motorLogs.create({
+              state: true,
+            });
+          }
+        }
+
+    else {
+          const stateLog = await db.motorLogs.findAll();
+
+          console.log(stateLog[stateLog.length-1].state)
+
+          if (stateLog[stateLog.length-1].state){
+            publish();
+
+            db.motorLogs.create({
+              state: false,
+            });
+        }
+    }
+  }
+}
