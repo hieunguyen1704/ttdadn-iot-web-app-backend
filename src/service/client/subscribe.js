@@ -51,7 +51,7 @@ export const subscribe = () => {
 
       }
     
-      if(temp !== -1 && humid !== -1 && light !== -1){
+      if(temp != -1 && humid != -1 && light != -1){
         db.Data.create({
           temperature: temp,
           humid: humid,
@@ -71,9 +71,9 @@ export const subscribe = () => {
           order: [['id', 'DESC']],
         });
 
-        if (temp > parseFloat(userConfig.tempeThreshold) && 
-            humid < parseFloat(userConfig.humidThreshold) && 
-            light > parseFloat(userConfig.lightThreshold)){
+        if (temp != -1 && temp > parseFloat(userConfig.tempeThreshold) && 
+            humid != -1 && humid < parseFloat(userConfig.humidThreshold) && 
+            light != -1 && light > parseFloat(userConfig.lightThreshold)){
               const stateLog = await db.motorLogs.findAll();
               if (!stateLog[stateLog.length-1].state){
                 publish();
