@@ -20,15 +20,21 @@ var topic_TempHumi = 'Topic/TempHumi';
 
 // eslint-disable-next-line no-unused-vars
 var topic_Light = 'Topic/Light';
-// var topic_Mois = 'Topic/Mois';
+var test = 'test_hieu';
 
 export const subscribe = () => {
   try {
     client.on('connect', function () {
       console.log('Sub connect OK');
+<<<<<<< HEAD
       client.subscribe(topic_TempHumi);
       client.subscribe(topic_Light);
       // client.subscribe("test_hieu");
+=======
+      // client.subscribe(topic_TempHumi);
+      // client.subscribe(topic_Light);
+      client.subscribe(test);
+>>>>>>> feature/huylvm
     });
     var temp = -1;
     var humid = -1;
@@ -37,6 +43,8 @@ export const subscribe = () => {
 
     client.on('message', async function (topic, message) {
       var mes = message;
+      // console.log(mes);
+      // console.log(mes.toString());
 
       var jsonMessage = JSON.parse(mes.toString());
       console.log(jsonMessage[0]);
@@ -50,6 +58,7 @@ export const subscribe = () => {
         light = parseFloat(jsonMessage[0].values[0]);
       }
 
+
       //@Hieu add to test create data
       // if(jsonMessage[0].temperature && jsonMessage[0].light && jsonMessage[0].humid){
       //   temp = parseFloat(jsonMessage[0].temperature);
@@ -57,55 +66,50 @@ export const subscribe = () => {
       //   humid = parseFloat(jsonMessage[0].humid);
       // }
 
-      if (temp != -1 && humid != -1 && light != -1) {
+      if(temp != -1 && humid != -1 && light != -1){
         db.Data.create({
           temperature: temp,
           humid: humid,
-          light: light,
-        });
-      }
-      const users = await db.User.findAll({
-        where: { isAuto: true, isAdmin: true },
-      });
+          light: light
+        })
 
-      if (users.length > 0) {
-        const user = users[0];
-        const userConfig = await db.UserConfig.findAll({
-          where: {
-            userId: user.id,
-          },
-          limit: 1,
-          order: [['createdAt', 'DESC']],
-        });
+        doIt(temp, humid, light);
 
-        if (
-          temp != -1 &&
-          temp > parseFloat(userConfig[0].tempeThreshold) &&
-          humid != -1 &&
-          humid < parseFloat(userConfig[0].humidThreshold) &&
-          light != -1 &&
-          light > parseFloat(userConfig[0].lightThreshold)
-        ) {
-          const stateLog = await db.motorLog.findAll({});
-          if (!stateLog[stateLog.length - 1].state) {
-            publish(true);
-            // db.motorLog.create({
-            //   state: true,
-            // });
-          }
-        } else {
-          const stateLog = await db.motorLog.findAll({});
-
-          if (stateLog[stateLog.length - 1].state) {
-            publish(false);
-            // db.motorLog.create({
-            //   state: false,
-            // });
-          }
-        }
+        temp = -1;
+        humid = -1;
+        light = -1;
       }
     });
+
+
   } catch (error) {
     console.error(error.message);
   }
 };
+
+const doIt = async (temp, humid, light) => {
+  const users = await db.User.findAll({where: {isAuto: true, isAdmin: true}});
+
+  if (users.length > 0 ){
+    const user = users[0];
+    const userConfig = await db.UserConfig.findAll({
+      where:{
+        userId: user.id
+      },
+      limit: 1,
+      order: [['id', 'DESC']],
+    });
+
+    // console.log(userConfig[0].tempeThreshold)
+
+    if (temp != -1 && temp > parseFloat(userConfig[0].tempeThreshold) && 
+        humid != -1 && humid < parseFloat(userConfig[0].humidThreshold) && 
+        light != -1 && light > parseFloat(userConfig[0].lightThreshold)){
+            publish(true);
+        }
+
+    else {
+            publish(false);
+    }
+  }
+}
