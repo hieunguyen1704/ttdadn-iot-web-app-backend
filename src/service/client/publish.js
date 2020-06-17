@@ -16,7 +16,10 @@ export const publish = (status) => {
   //false, true
   client.on('connect', async function () {
     try {
-      const stateLog = await db.motorLogs.findAll();
+      const stateLog = await db.motorLogs.findAll({
+        order: [['createdAt', 'ASC']]
+      });
+      console.log("Before State: ",stateLog[stateLog.length - 1].state);
       if (status) {
         // trạng thái cây phơi đồ
         // phơi đồ ra

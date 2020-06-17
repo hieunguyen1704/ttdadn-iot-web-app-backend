@@ -9,28 +9,28 @@ var mqtt = require('mqtt');
 
 // var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt')
 
-var client = mqtt.connect({
-  servers: [{ host: '13.76.250.158', port: 1883, protocol: 'tcp' }],
-  username: 'BKvm2',
-  password: 'Hcmut_CSE_2020',
-});
 
-// eslint-disable-next-line no-unused-vars
-var topic_TempHumi = 'Topic/TempHumi';
-
-// eslint-disable-next-line no-unused-vars
-var topic_Light = 'Topic/Light';
-// var topic = 'Topic/Speaker';
-// var test = 'test_hieu';
 
 export const subscribe = () => {
+  var client = mqtt.connect({
+    servers: [{ host: '13.76.250.158', port: 1883, protocol: 'tcp' }],
+    username: 'BKvm2',
+    password: 'Hcmut_CSE_2020',
+  });
+  
+  // eslint-disable-next-line no-unused-vars
+  var topic_TempHumi = 'Topic/TempHumi';
+  
+  // eslint-disable-next-line no-unused-vars
+  var topic_Light = 'Topic/Light';
+  // var topic = 'Topic/Speaker';
+  // var topic_test = 'test_hieu';
   try {
     client.on('connect', function () {
       console.log('Sub connect OK');
       client.subscribe(topic_TempHumi);
       client.subscribe(topic_Light);
-      // client.subscribe(topic);
-      // client.subscribe("test_hieu");
+      // client.subscribe(topic_test);
     });
     var temp = -1;
     var humid = -1;
@@ -87,7 +87,7 @@ const doIt = async (temp, humid, light) => {
       order: [['id', 'DESC']],
     });
 
-    // console.log(userConfig[0].tempeThreshold)
+    console.log("Last User Config:  ",userConfig[0].tempeThreshold, userConfig[0].humidThreshold, userConfig[0].lightThreshold)
 
     if (
       temp != -1 &&
@@ -98,8 +98,10 @@ const doIt = async (temp, humid, light) => {
       light > parseFloat(userConfig[0].lightThreshold)
     ) {
       publish(true);
+      console.log("publish true");
     } else {
       publish(false);
+      console.log("publish false");
     }
   }
 };

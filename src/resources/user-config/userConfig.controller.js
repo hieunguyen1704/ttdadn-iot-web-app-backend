@@ -20,6 +20,7 @@ export const GetConfigByUser = async (req, res) => {
     const currentUserId = req.user.id;
     const userConfigs = await UserConfig.findAll({
       where: { userId: currentUserId },
+      order: [['createdAt', 'ASC']]
     });
     return res.status(200).json({ data: userConfigs });
   } catch (error) {
