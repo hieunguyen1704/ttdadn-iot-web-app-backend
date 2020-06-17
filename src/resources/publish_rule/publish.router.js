@@ -3,7 +3,7 @@ import {PublishData} from './publish.controller'
 const router = Router();
 
 router
-    .route('/')
+    .route('/:state')
     .get(PublishData);
 
 export default router;
