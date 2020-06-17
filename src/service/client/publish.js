@@ -17,29 +17,30 @@ export const publish = (status) => {
   client.on('connect', async function () {
     try {
       const stateLog = await db.motorLogs.findAll();
-      if (status) { // trạng thái cây phơi đồ
-        // phơi đồ ra 
+      if (status) {
+        // trạng thái cây phơi đồ
+        // phơi đồ ra
         if (!stateLog[stateLog.length - 1].state) {
-          client.publish(topic, turnOnMes);
-          setTimeout(() => {
-            client.publish(topic, turnOffMes);
-          }, 5000);
           // set trạng thái phơi đồ là true
           db.motorLogs.create({
             state: true,
           });
-        }
-      } else {
-        // lấy đồ vào
-        if (stateLog[stateLog.length - 1].state) {
           client.publish(topic, turnOnMes);
           setTimeout(() => {
             client.publish(topic, turnOffMes);
           }, 5000);
+        }
+      } else {
+        // lấy đồ vào
+        if (stateLog[stateLog.length - 1].state) {
           // xét trạng thái phơi đồ là false
           db.motorLogs.create({
             state: false,
           });
+          client.publish(topic, turnOnMes);
+          setTimeout(() => {
+            client.publish(topic, turnOffMes);
+          }, 5000);
         }
       }
     } catch (error) {

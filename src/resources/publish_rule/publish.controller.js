@@ -5,9 +5,15 @@ export const PublishData = async (req, res) => {
         let state = req.params.state == 0 ? false : true;
         const user = await db.User.findOne({ where: { id: req.user.id } });
         const {isAdmin,isAuto} = user;
+
         if(isAdmin && !isAuto){
             publish(state); 
-            return res.status(200).json({ data: "publish successful"});
+            // const lastState = await db.motorLogs.findAll({
+            //     limit: 1,
+            //     order: [ [ 'createdAt', 'DESC' ]]
+            // });
+            // const sendState = lastState[0].state
+            return res.status(200).json({ data: state});
         }
         else{
             return res.status(200).json({ data: "publish denied"});

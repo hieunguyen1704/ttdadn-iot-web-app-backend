@@ -5,6 +5,7 @@ export const getLastMotorState= async (req, res) => {
             limit: 1,
             order: [ [ 'createdAt', 'DESC' ]]
         });
+        // console.log(lastState[0].id, lastState[0].state);
         const lastMotorState = lastState[0].state;
         return res.status(200).json({data: lastMotorState});
 
