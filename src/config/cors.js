@@ -1,4 +1,7 @@
-export const whiteListCors = ['http://localhost:1234'];
+export const whiteListCors = [
+  'http://localhost:1234',
+  'https://ttdadn-cse.web.app',
+];
 
 export const corsOptions = {
   origin: whiteListCors,
