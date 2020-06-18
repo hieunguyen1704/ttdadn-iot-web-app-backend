@@ -10,11 +10,15 @@ import configRouter from './resources/user-config/userConfig.router';
 import publishRouter from './resources/publish_rule/publish.router';
 import getMotorState from './resources/motorState/motor.router';
 import { corsOptions } from './config/cors';
+import interactRouter from './resources/interact/interact.router';
 
 import { subscribe } from './service/client/subscribe.js';
 // import { publish } from './service/client/publish.js';
 
 const app = express();
+
+//global variable
+global.saveDB = false;
 
 const PORT = process.env.PORT || 5000;
 
@@ -43,6 +47,8 @@ app.use('/publish', publishRouter);
 app.use('/motor', auth);
 app.use('/motor', getMotorState);
 
+app.use('/interact', interactRouter);
+
 export const start = () => {
   try {
     db.sequelize
@@ -56,12 +62,7 @@ export const start = () => {
       console.log(`REST API on http://localhost:${PORT}/`);
     });
 
-    (function () {
-      subscribe();
-      // 
-    })();
-    // publish(true);
-    // ()
+    subscribe();
   } catch (e) {
     console.error(e);
   }
