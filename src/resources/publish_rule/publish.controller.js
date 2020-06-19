@@ -7,13 +7,18 @@ export const PublishData = async (req, res) => {
         const {isAdmin,isAuto} = user;
 
         if(isAdmin && !isAuto){
-            publish(state); 
-            // const lastState = await db.motorLogs.findAll({
-            //     limit: 1,
-            //     order: [ [ 'createdAt', 'DESC' ]]
-            // });
-            // const sendState = lastState[0].state
-            return res.status(200).json({ data: state});
+            try {
+                await publish(state);
+                const lastState = await db.motorLogs.findAll({
+                    limit: 1,
+                    order: [ [ 'createdAt', 'DESC' ]]
+                });
+                const sendState = lastState[0].state
+                return res.status(200).json({ data: sendState});
+            } catch (error) {
+                return res.status(400).json({error: error.message})
+            }
+
         }
         else{
             return res.status(200).json({ data: "publish denied"});

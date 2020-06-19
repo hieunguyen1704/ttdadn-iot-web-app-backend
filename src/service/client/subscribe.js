@@ -7,8 +7,6 @@ const db = require('../../models');
 
 var mqtt = require('mqtt');
 
-// var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt')
-
 export const subscribe = () => {
   var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt');
 
