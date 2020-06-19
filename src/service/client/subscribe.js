@@ -10,25 +10,27 @@ var mqtt = require('mqtt');
 // var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt')
 
 export const subscribe = () => {
-  var client = mqtt.connect({
-    servers: [{ host: '13.76.250.158', port: 1883, protocol: 'tcp' }],
-    username: 'BKvm2',
-    password: 'Hcmut_CSE_2020',
-  });
+  var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt');
+
+  // var client = mqtt.connect({
+  //   servers: [{ host: '13.76.250.158', port: 1883, protocol: 'tcp' }],
+  //   username: 'BKvm2',
+  //   password: 'Hcmut_CSE_2020',
+  // });
 
   // eslint-disable-next-line no-unused-vars
-  var topic_TempHumi = 'Topic/TempHumi';
+  // var topic_TempHumi = 'Topic/TempHumi';
 
   // eslint-disable-next-line no-unused-vars
-  var topic_Light = 'Topic/Light';
+  // var topic_Light = 'Topic/Light';
   // var topic = 'Topic/Speaker';
-  // var topic_test = 'test_hieu';
+  var topic_test = 'test_hieu';
   try {
     client.on('connect', function () {
       console.log('Sub connect OK');
-      client.subscribe(topic_TempHumi);
-      client.subscribe(topic_Light);
-      // client.subscribe(topic_test);
+      // client.subscribe(topic_TempHumi);
+      // client.subscribe(topic_Light);
+      client.subscribe(topic_test);
     });
     var temp = -1;
     var humid = -1;
