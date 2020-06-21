@@ -8,8 +8,8 @@ export const subscribe = () => {
   // var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt');
 
   var client = mqtt.connect({
-    servers: [{ host: '13.76.250.158', port: 1883, protocol: 'tcp' }],
-    username: 'BKvm2',
+    servers: [{ host: '52.187.125.59', port: 1883, protocol: 'tcp' }],
+    username: 'BKvm',
     password: 'Hcmut_CSE_2020',
   });
 
