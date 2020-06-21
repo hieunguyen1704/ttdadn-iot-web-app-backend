@@ -5,12 +5,12 @@ import db from '../../models';
 export const publish = (status) => {
   return new Promise((resolve, reject) => {
     try {
-      // const client = mqtt.connect({
-      //   servers: [{ host: '13.76.250.158', port: 1883, protocol: 'tcp' }],
-      //   username: 'BKvm2',
-      //   password: 'Hcmut_CSE_2020',
-      // });
-      var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt');
+      const client = mqtt.connect({
+        servers: [{ host: '13.76.250.158', port: 1883, protocol: 'tcp' }],
+        username: 'BKvm2',
+        password: 'Hcmut_CSE_2020',
+      });
+      // var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt');
       let topic = 'Topic/Speaker';
 
       let turnOnMes = '{"device_id": "Speaker", "values": ["1", "2000"]}';
