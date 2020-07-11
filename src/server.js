@@ -18,7 +18,7 @@ import { subscribe } from './service/client/subscribe.js';
 const app = express();
 
 //global variable
-global.saveDB = false;
+global.saveDB = true;
 
 const PORT = process.env.PORT || 5000;
 

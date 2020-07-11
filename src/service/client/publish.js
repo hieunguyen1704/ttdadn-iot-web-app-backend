@@ -5,16 +5,16 @@ import db from '../../models';
 export const publish = (status) => {
   return new Promise((resolve, reject) => {
     try {
-      const client = mqtt.connect({
-        servers: [{ host: '13.76.250.158', port: 1883, protocol: 'tcp' }],
-        username: 'BKvm2',
-        password: 'Hcmut_CSE_2020',
-      });
-      // var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt');
+      // const client = mqtt.connect({
+      //   servers: [{ host: '52.187.125.59', port: 1883, protocol: 'tcp' }],
+      //   username: 'BKvm',
+      //   password: 'Hcmut_CSE_2020',
+      // });
+      var client  = mqtt.connect('ws://broker.hivemq.com:8000/mqtt');
       let topic = 'Topic/Speaker';
 
-      let turnOnMes = '{"device_id": "Speaker", "values": ["1", "2000"]}';
-      let turnOffMes = '{"device_id": "Speaker", "values": ["0", "2000"]}';
+      let turnOnMes = '[{"device_id": "Speaker", "values": ["1", "2000"]}]';
+      let turnOffMes = '[{"device_id": "Speaker", "values": ["0", "2000"]}]';
       //false, true
       client.on('connect', async function () {
         const stateLog = await db.motorLogs.findAll({
@@ -32,7 +32,7 @@ export const publish = (status) => {
             client.publish(topic, turnOnMes);
             setTimeout(() => {
               client.publish(topic, turnOffMes);
-            }, 3000);
+            }, 10000);
           }
         } else {
           // lấy đồ vào
@@ -44,7 +44,7 @@ export const publish = (status) => {
             client.publish(topic, turnOnMes);
             setTimeout(() => {
               client.publish(topic, turnOffMes);
-            }, 3000);
+            }, 10000);
           }
         }
         resolve(true);
