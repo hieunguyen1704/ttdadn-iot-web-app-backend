@@ -5,7 +5,7 @@ export const GetUserInfoById = async (req, res) => {
   try {
     const currentUserId = req.user.id;
     const userInfo = await User.findAll({
-      attributes: ['username', 'email'],
+      attributes: ['username', 'email','name','avatar'],
       where: { id: currentUserId },
     });
     return res.status(200).json({ data: userInfo });
@@ -19,6 +19,8 @@ export const UpdateUserInfo = async (req, res) => {
     const currentUserId = req.user.id;
     const username = req.body.username;
     const email = req.body.email;
+    const name = req.body.name;
+    const avatar = req.body.avatar;
     const sameUserName = await User.findAll({
         where: 
         {id: { [Op.ne]: currentUserId } ,username: username }
@@ -37,6 +39,8 @@ export const UpdateUserInfo = async (req, res) => {
       {
         username: username,
         email: email,
+        name: name,
+        avatar: avatar
       },
       {
         where: { id: currentUserId },

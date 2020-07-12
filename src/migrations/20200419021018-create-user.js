@@ -31,6 +31,14 @@ module.exports = {
           len: [6, 10]
         }
       },
+      name:{
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      avatar:{
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,
