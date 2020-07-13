@@ -10,6 +10,7 @@ import configRouter from './resources/user-config/userConfig.router';
 import publishRouter from './resources/publish_rule/publish.router';
 import getMotorState from './resources/motorState/motor.router';
 import userInfoRouter from './resources/user-info/userInfo.router';
+import changePassWordRouter from './resources/change-password/change-password.router';
 import { corsOptions } from './config/cors';
 import interactRouter from './resources/interact/interact.router';
 
@@ -50,6 +51,9 @@ app.use('/motor', getMotorState);
 
 app.use('/user-info', auth);
 app.use('/user-info', userInfoRouter);
+
+app.use('/change-password',auth);
+app.use('/change-password', changePassWordRouter);
 
 app.use('/interact', interactRouter);
 
