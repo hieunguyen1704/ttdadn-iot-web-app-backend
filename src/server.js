@@ -12,6 +12,7 @@ import getMotorState from './resources/motorState/motor.router';
 import userInfoRouter from './resources/user-info/userInfo.router';
 import changePassWordRouter from './resources/change-password/change-password.router';
 import resetPasswordRouter from './resources/reset-password/resetPass.router';
+import toggleNotificationRouter from './resources/toggle-notification/toggleNotification.router';
 import { corsOptions } from './config/cors';
 import interactRouter from './resources/interact/interact.router';
 
@@ -55,6 +56,9 @@ app.use('/user-info', userInfoRouter);
 
 app.use('/change-password',auth);
 app.use('/change-password', changePassWordRouter);
+
+app.use('/toggle-notification',auth);
+app.use('/toggle-notification',toggleNotificationRouter);
 
 app.use('/reset-password', resetPasswordRouter);
 
