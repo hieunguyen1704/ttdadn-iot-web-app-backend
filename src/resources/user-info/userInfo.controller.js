@@ -5,7 +5,7 @@ export const GetUserInfoById = async (req, res) => {
   try {
     const currentUserId = req.user.id;
     const userInfo = await User.findAll({
-      attributes: ['username', 'email','name','avatar'],
+      attributes: ['username', 'email','name','avatar','isNotification'],
       where: { id: currentUserId },
     });
     return res.status(200).json({ data: userInfo });

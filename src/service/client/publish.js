@@ -67,7 +67,9 @@ export const publish = (status) => {
               client.publish(topic, turnOffMes);
             }, 10000);
             if(users.length > 0){ // send email to admin
-              sendEmail(email, "Đồ đang được phơi", threshold, current);
+              if(users[0].isNotification == true){
+                sendEmail(email, "Đồ đang được phơi", threshold, current);
+              }
             }
           }
         } else {
@@ -82,7 +84,9 @@ export const publish = (status) => {
               client.publish(topic, turnOffMes);
             }, 10000);
             if(users.length > 0){ // send email to admin
-              sendEmail(email, "Đồ đang được lấy vào", threshold, current);
+              if(users[0].isNotification == true){
+                sendEmail(email, "Đồ đang được lấy vào", threshold, current);
+              }
             }
           }
         }
