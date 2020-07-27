@@ -31,6 +31,18 @@ module.exports = {
           len: [6, 10]
         }
       },
+      name:{
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      avatar:{
+        type: Sequelize.STRING,
+        allowNull: true,
+      },
+      isNotification:{
+        type: Sequelize.BOOLEAN,
+        allowNull: true
+      },
       createdAt: {
         allowNull: false,
         type: Sequelize.DATE,

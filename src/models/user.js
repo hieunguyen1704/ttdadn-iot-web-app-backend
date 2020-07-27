@@ -52,6 +52,20 @@ module.exports = (sequelize, DataTypes) => {
           }
         },
       },
+      name:{
+        type: DataTypes.STRING,
+        allowNull: true
+      },
+      avatar:{
+        type: DataTypes.STRING,
+        defaultValue: "https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png",
+        allowNull: true,
+      },
+      isNotification:{
+        type: DataTypes.BOOLEAN,
+        defaultValue: false,
+        allowNull: true,
+      },
       isAdmin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
