@@ -92,7 +92,7 @@ export const publish = (status) => {
         }
         resolve(true);
       });
-      setTimeout(() => reject('Timeout'), 3500);
+      setTimeout(() => reject('Timeout'), 10500);
     } catch (error) {
       reject(error);
     }
